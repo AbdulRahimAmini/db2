@@ -3020,7 +3020,7 @@ function printReportOutput() {
   <h2>📋 گزارش</h2>
   <div class="sub">تاریخ چاپ: ${new Date().toLocaleDateString('fa-IR')} &nbsp;|&nbsp; مجموع پرونده‌ها: ${orphans.length}</div>
   ${out.innerHTML}
-  </body></html>`);
+  <script src="api-bridge.js"></script></body></html>`);
   w.document.close();
   setTimeout(() => w.print(), 600);
 }
@@ -3094,7 +3094,7 @@ function exportWord() {
     const edu=o.edutype==='School'?'مکتب':o.edutype==='Course'?'دوره':o.edutype==='Both'?'هر دو':'—';
     const grw=o.grade?(o.grade==='university'?'پوهنتون':o.grade==='course'?'دوره':o.grade==='none'?'—':`صنف ${o.grade}`):'—';return `<tr><td>${o.id}</td><td>${o.name||''}</td><td>${o.age||''}</td><td>${o.father||''}</td><td>${o.mother||''}</td><td>${o.guardian||''}</td><td>${o.guardianFather||''}</td><td>${o.mobile||''}</td><td>${grw}</td><td>${getSchoolName(o.school)}</td><td>${edu}</td><td>${st}</td><td>${o.address||''}</td></tr>`;
   }).join('')}
-  </tbody></table></body></html>`;
+  </tbody></table><script src="api-bridge.js"></script></body></html>`;
   const blob = new Blob([html],{type:'application/vnd.ms-word'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a'); a.href=url; a.download=`orphan-report-${new Date().toISOString().split('T')[0]}.doc`; a.click();
@@ -3130,7 +3130,7 @@ function printTable() {
     const cat=(o.studenttype||'orphan')==='needy'?'بی‌بضاعت':'یتیم';
     const gen=o.gender||'—';
     return `<tr><td>${o.id}</td><td>${o.name||''}</td><td>${o.father||''}</td><td>${o.grandfather||''}</td><td>${gen}</td><td>${cat}</td><td>${o.age||''}</td><td style='direction:ltr;text-align:right;'>${o.mobile||''}</td><td>${gr2}</td><td>${getSchoolName(o.school)}</td><td>${edu}</td><td>${st}</td></tr>`;
-  }).join('')}</tbody></table></body></html>`);
+  }).join('')}</tbody></table><script src="api-bridge.js"></script></body></html>`);
   w.document.close(); w.print();
 }
 
@@ -3955,7 +3955,7 @@ function printStudentReport() {
     +'<tbody>'+tableRows+'</tbody></table>'
     +'<div style="margin-top:10px;font-size:9px;color:#888;text-align:center;border-top:1px solid #ddd;padding-top:8px;">این کارنامه توسط سیستم مدیریت موسسه خیریه رفاه یتیم صادر گردیده است.</div>'
     +'<script>window.onload=function(){window.print();}<\/script>'
-    +'</body></html>';
+    +'<script src="api-bridge.js"></script></body></html>';
   var w=window.open('','_blank');
   w.document.write(html);
   w.document.close();
@@ -4170,7 +4170,7 @@ function printScoresReport() {
   })()}
 </div>
 <scr` + `ipt>window.onload=function(){window.print();}</scr` + `ipt>
-</body></html>`;
+<script src="api-bridge.js"></script></body></html>`;
 
   const w = window.open('','_blank');
   w.document.write(html);
@@ -4288,7 +4288,7 @@ function printRankingsReport() {
   <tbody>${tableRows}</tbody>
 </table>
 <scr` + `ipt>window.onload=function(){window.print();}</scr` + `ipt>
-</body></html>`;
+<script src="api-bridge.js"></script></body></html>`;
 
   const w = window.open('','_blank');
   w.document.write(html);
@@ -4832,7 +4832,7 @@ function printGraduatesReport() {
     + '<th style="text-align:center;background:#c9a84c;color:#1a1200;">درجه</th>'
     + '</tr></thead><tbody>' + rows + '</tbody></table>'
     + '<script>window.onload=function(){window.print();}<\/script>'
-    + '</body></html>';
+    + '<script src="api-bridge.js"></script></body></html>';
 
   const w = window.open('', '_blank');
   w.document.write(html);
@@ -5320,29 +5320,10 @@ function printInvoice(txId) {
     <button onclick="window.print()" style="background:#1a1d27;color:#c9a84c;border:none;padding:10px 28px;border-radius:6px;font-family:Vazirmatn,Tahoma,sans-serif;font-size:1rem;cursor:pointer;">🖨️ چاپ بل</button>
   </div>
   <script>window.onload=function(){setTimeout(()=>window.print(),400);}<\/script>
-  </body></html>`;
+  <script src="api-bridge.js"></script></body></html>`;
   const w = window.open('','_blank','width=860,height=700');
   if (w) { w.document.write(html); w.document.close(); }
 }
 </script>
-</body>
+<script src="api-bridge.js"></script></body>
 </html>
-
-<script>
-const API = "/api";
-
-async function apiGet(url){
-  const r = await fetch(API+url);
-  return await r.json();
-}
-
-async function apiPost(url,data){
-  await fetch(API+url,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(data)
-  });
-}
-
-console.log("API CONNECTED");
-</script>
